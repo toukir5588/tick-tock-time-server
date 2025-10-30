@@ -38,9 +38,9 @@ async function run() {
             const email = req.body.email;
             const query = { email: email }
             const existingUser = await usersCollection.findOne(query);
-            
+
             if (existingUser) {
-                res.send({message: 'user already exits. do not need to insert again'})
+                res.send({ message: 'user already exits. do not need to insert again' })
             }
             else {
                 const result = await usersCollection.insertOne(newUser);
@@ -65,8 +65,8 @@ async function run() {
             res.send(result)
         });
 
-        app.get('/latest-products', async(req, res) =>{
-            const cursor = productsCollection.find().sort({created_at: -1}).limit(6);
+        app.get('/latest-products', async (req, res) => {
+            const cursor = productsCollection.find().sort({ created_at: -1 }).limit(6);
             const result = await cursor.toArray();
             res.send(result);
         })
@@ -115,6 +115,15 @@ async function run() {
             }
 
             const cursor = bidsCollection.find(query);
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+
+        app.get('/products/bids/:productId', async (req, res) => {
+            const productId = req.params.productId;
+            const query = { product: productId }
+            const cursor = bidsCollection.find(query).sort({ bid_price: -1 })
             const result = await cursor.toArray();
             res.send(result);
         })
