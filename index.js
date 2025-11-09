@@ -72,7 +72,7 @@ async function run() {
     });
 
     app.get("/latest-habits", async (req, res) => {
-      const cursor = habitsCollection.find();
+      const cursor = habitsCollection.find().sort({ createdAt: -1 }).limit(6);
 
       const result = await cursor.toArray();
       res.send(result);
@@ -86,8 +86,9 @@ async function run() {
     });
 
     app.post("/habits", async (req, res) => {
-      const newProduct = req.body;
-      const result = await habitsCollection.insertOne(newProduct);
+      const newHabit = req.body;
+      newHabit.createdAt = new Date()
+      const result = await habitsCollection.insertOne(newHabit);
       res.send(result);
     });
 
