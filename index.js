@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 
 async function run() {
   try {
-    await client.connect();
+    // await client.connect();
 
     // const db = client.db("smart_db");
     const db = client.db("habit_db");
@@ -168,26 +168,12 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/createHabit", async (req, res) => {
-      const query = {};
-      if (query.email) {
-        query.buyer_email = email;
-      }
-
-      const cursor = bidsCollection.find(query);
-      const result = await cursor.toArray();
-      res.send(result);
-    });
-
-    app.post("/createHabit", async (req, res) => {
-      const newBid = req.body;
-      const result = await bidsCollection.insertOne(newBid);
-      res.send(result);
-    });
 
 
+ 
 
-    await client.db("admin").command({ ping: 1 });
+
+    // await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
